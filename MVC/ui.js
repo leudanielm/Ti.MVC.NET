@@ -1,16 +1,11 @@
 var UI = (function(){
    var utils = require('/MVC/utils'),
 	   Factory = {
-			Elements: {
-				'window': function() { return Ti.UI.createWindow(); },
-				'image': function() { return Ti.UI.createImageView(); },
-				'label': function() { return Ti.UI.createLabel(); },
-				'input': function() { return Ti.UI.createTextField(); },
-				'textarea': function() { return Ti.UI.createTextArea(); },
-				'button': function() { return Ti.UI.createButton(); }
-			},
+	   	    Elements: function(element) {
+	   	    	return Ti.UI['create' + element]();
+	   	    },
 			Create: function(type) {
-				this.Element = Factory.Elements[type]();
+				this.Element = Factory.Elements(type);
 				this.attr = function() {
 					if (arguments.length == 2) {
 						this.Element[arguments[0]] = arguments[1];

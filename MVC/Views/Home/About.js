@@ -1,5 +1,5 @@
 function About(AboutModel) {
-		txtName =  UI.Element('input')
+		txtName =  UI.Element('TextField')
 		    	     .attr({  borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
  						      color: '#336699',
   					 	      top: 60,
@@ -7,7 +7,7 @@ function About(AboutModel) {
   					 	      left: 10,
   					 	      width: 300, 
   					 	      height: 40}).get(),
-  		txtEmail = UI.Element('input')
+  		txtEmail = UI.Element('TextField')
  		    	     .attr({  borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
  						      color: '#336699',
   					 	      top: 10, 
@@ -15,13 +15,13 @@ function About(AboutModel) {
   					 	      left: 10,
   					 	      width: 300, 
   					 	      height: 40}).get(),
-	    bkgImg = UI.Element('image')
+	    bkgImg = UI.Element('ImageView')
 			    .attr({'width': 320,
 				 	  'height': 480,
 				 	  'duration': 1000,
 				 	  'preventDefaultImage': true})
 			    .get();
-	UI.Element('window')
+	UI.Element('Window')
 	   .attr({'title': 'hello','backgroundColor': '#ccc'})
 	   .on('click', function(){
 	   		this.close({transition:Ti.UI.iPhone.AnimationStyle.FLIP_FROM_LEFT});

@@ -1,19 +1,19 @@
 function Index() {
-	var txtName =  UI.Element('input')
+	var txtName =  UI.Element('TextField')
 		    	     .attr({  borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
  						      color: '#336699',
   					 	      top: 60, 
   					 	      left: 10,
   					 	      width: 300, 
   					 	      height: 40}).get();
-  	var txtEmail = UI.Element('input')
+  	var txtEmail = UI.Element('TextField')
  		    	     .attr({  borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
  						      color: '#336699',
   					 	      top: 10, 
   					 	      left: 10,
   					 	      width: 300, 
   					 	      height: 40}).get();
-  	var btnSubmit = UI.Element('button')
+  	var btnSubmit = UI.Element('Button')
   	 				  .attr({ borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
  						      color: '#336699',
   					 	      top: 110, 
@@ -25,7 +25,7 @@ function Index() {
   	 				  	 MVC.Invoke('Home', 'About', txtName.value, txtEmail.value);
   	 				  })
   	 				  .get();				 	      
-  	var imgBkg =  UI.Element('image')
+  	var imgBkg =  UI.Element('ImageView')
 				  	  .attr({
 					  	  width: 320,
 					  	  height: 480,
@@ -34,7 +34,7 @@ function Index() {
 				  	  }).get();
 	
 	
-	UI.Element('window')
+	UI.Element('Window')
 	  .attr({
 	  	title: 'hello',
 	  	backgroundColor: '#fff'
