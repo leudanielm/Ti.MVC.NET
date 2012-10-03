@@ -85,6 +85,7 @@ var MVC = (function() {
 					    Methods = that.Methods,
 						_temp;
 						
+<<<<<<< HEAD
 						(function() {
 						   _temp = {};
 						   for (var i = 0; i < Methods.length; i++) {
@@ -97,6 +98,20 @@ var MVC = (function() {
 		   	  							    })(Methods[i]);
 						   }
 						})();
+=======
+							(function() {
+							   _temp = {};
+							   for (var i = 0; i < Methods.length; i++) {
+							   	  _temp[Methods[i].Name] = (function(a) { 
+							   	  	  							return function() { 
+						   	  										return function() {
+						   	  											a.Method.apply(a, arguments);
+						   	  										}
+							   	  								} 
+							   	  							})(Methods[i]);
+							   }
+							})();
+>>>>>>> update mvc.js
 	
 						return {
 							Methods: _temp
