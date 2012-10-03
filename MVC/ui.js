@@ -6,6 +6,7 @@ var UI = (function(){
 	   	    },
 			Create: function(type) {
 				this.Element = Factory.Elements(type);
+				this.EventListeners = {};
 				this.attr = function() {
 					if (arguments.length == 2) {
 						this.Element[arguments[0]] = arguments[1];
@@ -19,10 +20,15 @@ var UI = (function(){
 				}
 				this.on = function(ev, callback) {
 					this.Element.addEventListener(ev, (function(a){
+						this.EventListeners[ev] = callback;
 						return function() {
 							callback.apply(a);
 						}
 					})(this.Element));
+					return this;
+				},
+				this.off = function(ev) {
+					this.Element.removeEventListener(ev, this.EventListeners[ev]);
 					return this;
 				}
 				this.get = function() {
