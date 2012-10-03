@@ -1,5 +1,16 @@
 var MVC = (function() {
    var utils = require('/MVC/utils'),
+   		Models = (function() {
+   			var files = Ti.Filesystem.getFile(utils._path('/MVC/Models')).getDirectoryListing(),
+   				_temp = {};
+   				files.forEach(function(item) {
+   					_temp[item.replace('Model.js', '')] = require('/MVC/Models/' + item.replace('.js',''));
+   				});
+   				
+   				return {
+   					_list: _temp
+   				}
+   		})(),
 	    Controller = function(name) {
 	    	var that = this;
 			this.Name = name;
@@ -143,7 +154,8 @@ var MVC = (function() {
 	
 	return {
 		Invoke: Invoke,
-		Controller: Controller
+		Controller: Controller,
+		Models: Models._list
 	}
 
 })();

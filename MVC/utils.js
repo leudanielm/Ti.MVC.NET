@@ -31,13 +31,17 @@ var UTILS = (function(){
 				} else { 
 					return _translate(arguments[0]);
 				}
+			},
+			_path: function(string) {
+				return Ti.Filesystem.resourcesDirectory.replace(/\//gi, Ti.Filesystem.getSeparator()) + string.replace(/\//gi, Ti.Filesystem.getSeparator());
 			} 	
 	  };
 	   
 	   return {
 	   	  _type: utils._type,
 	   	  _format: utils._format,
-	   	  _empty: utils._empty
+	   	  _empty: utils._empty,
+	   	  _path: utils._path
 	   }
 })();
 
