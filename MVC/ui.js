@@ -2,7 +2,7 @@ var UI = (function(){
    var utils = require('/MVC/utils'),
 	   Factory = {
 	   	    Elements: function(element) {
-	   	    	return Ti.UI['create' + element]();
+	   	    	return Ti.UI['create' + element.replace(/^./, function(e){return e.toUpperCase()})]();
 	   	    },
 			Create: function(type) {
 				this.Element = Factory.Elements(type);
