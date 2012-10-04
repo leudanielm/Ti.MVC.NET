@@ -131,7 +131,7 @@ var MVC = (function() {
 	    	this.Properties = {};
 	    	this.setProperty = function() {
 	    		if (arguments.length < 2) {
-	    			throw 'MVC.Model takes at least two arguments!';
+	    			throw 'MVC.Model takes at least two arguments.';
 	    		}
 	    		this.Properties[arguments[0]] = {
 	    			value: arguments[1],
@@ -200,9 +200,16 @@ var MVC = (function() {
 	    },
 	    invokeController = function() {
 	   	
-	   	  if (arguments.length < 2) { throw 'MVC.Invoke requires a minimum of two arguments.'; }  
+	   	  if (arguments.length < 1) { throw 'MVC.Invoke requires a minimum of one argument.'; }
 	   	  
-	   	  var ctrlMethod = include.controller(arguments[0]).Methods[arguments[1]];
+	   	  var ctrlMethod;
+	   	  if (arguments.length == 1) {
+	   	  	 ctrlMethod = include.controller(arguments[0]).Methods['Index'];
+	   	  	 if ('undefined' === typeof ctrlMethod) { throw utils._format('MVC.Invoke: {0}Controller does not have an Index method', arguments[0]); }
+	   	  	 return ctrlMethod.call(ctrlMethod).apply(ctrlMethod);
+	   	  } else {
+			 ctrlMethod = include.controller(arguments[0]).Methods[arguments[1]];	   	  	
+	   	  }
 
 	   	  if (arguments.length == 2) {
 	   		   return ctrlMethod.call(ctrlMethod).apply(ctrlMethod);
