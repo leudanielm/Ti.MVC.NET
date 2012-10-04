@@ -4,6 +4,10 @@ function About(AboutModel) {
  						      color: '#336699',
   					 	      top: 60,
   					 	      value: this.ViewData['name'],
+  					 	      fontFamily: 'Helvetica',
+  					 	      fontStyle: {
+  					 	      	fontSize: 11
+  					 	      },
   					 	      left: 10,
   					 	      width: 300, 
   					 	      height: 40}).get(),
@@ -11,7 +15,11 @@ function About(AboutModel) {
  		    	     .attr({  borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
  						      color: '#336699',
   					 	      top: 10, 
-  					 	      value: this.ViewData['email'],  					 	      
+  					 	      value: this.ViewData['email'],
+  					 	      fontFamily: 'Helvetica',
+  					 	      fontStyle: {
+  					 	      	fontSize: 11
+  					 	      },  					 	        					 	      
   					 	      left: 10,
   					 	      width: 300, 
   					 	      height: 40}).get();

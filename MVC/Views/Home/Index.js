@@ -4,21 +4,21 @@ function Index() {
  						      color: '#336699',
   					 	      top: 60, 
   					 	      left: 10,
-  					 	      width: 300, 
+  					 	      width: 300,  					 	      
   					 	      height: 40}).get();
   	var txtEmail = UI.Element('textField')
  		    	     .attr({  borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
  						      color: '#336699',
   					 	      top: 10, 
   					 	      left: 10,
-  					 	      width: 300, 
+  					 	      width: 300,				 	       
   					 	      height: 40}).get();
   	var btnSubmit = UI.Element('button')
   	 				  .attr({ borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
  						      color: '#336699',
   					 	      top: 110, 
   					 	      left: 10,
-  					 	      width: 300,
+  					 	      width: 300,			 	      
   					 	      title: 'Submit', 
   					 	      height: 40  	 				  	
   	 				  }).on('click', function() {

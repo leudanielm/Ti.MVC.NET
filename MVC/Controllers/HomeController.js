@@ -9,11 +9,7 @@ module.exports =
 				this.ViewData['email'] = email;
 				return this.View();
 		  	 } else {
-		  	 	var str = '';
-		  	 	for (var p in model.Errors()) {
-		  	 		str += p + ' : ' + model.Errors()[p] + '\n';
-		  	 	}
-		  	 	alert(str);
+		  	 	return this.View('MVC/Views/Shared/Errors.js', model.Errors());
 		  	 }	   	
 			
 	   	})
