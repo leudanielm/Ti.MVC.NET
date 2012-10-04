@@ -18,6 +18,9 @@ var UTILS = (function(){
 			          return string;
 			     } else { return string; }
 			},
+			_emptyString: function(string) {
+				return /^\s*$/.test(string);
+			},
 			_type: function() {
 				var _translate = function(o) {
 					return String.prototype.toLowerCase.apply(Object.prototype.toString.call(o).match(/\w*(?=])/));
@@ -41,7 +44,8 @@ var UTILS = (function(){
 	   	  _type: utils._type,
 	   	  _format: utils._format,
 	   	  _empty: utils._empty,
-	   	  _path: utils._path
+	   	  _path: utils._path,
+	   	  _emptyString: utils._emptyString,
 	   }
 })();
 

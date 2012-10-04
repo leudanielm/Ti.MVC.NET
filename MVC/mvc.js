@@ -1,16 +1,27 @@
 var MVC = (function() {
-   var utils = require('/MVC/utils'),
-   		Models = (function() {
-   			var files = Ti.Filesystem.getFile(utils._path('/MVC/Models')).getDirectoryListing(),
-   				_temp = {};
-   				files.forEach(function(item) {
-   					_temp[item.replace('Model.js', '')] = require('/MVC/Models/' + item.replace('.js',''));
-   				});
-   				
-   				return {
-   					_list: _temp
-   				}
-   		})(),
+    // Helpers
+    var utils = require('/MVC/utils'),
+	    include = {
+	    	'view': function() {
+	    		var d = require(utils._format('MVC/Views/{0}/{1}', arguments[0], arguments[1]));
+	    		switch (arguments.length) {
+	    			case 2:
+    					return new d();
+    				break;
+    				case 3:
+    					d.prototype.ViewData = arguments[2];
+    					return new d();
+    				break;
+    				case 4:
+    					d.prototype.ViewData = arguments[2];
+    					return new d(arguments[3]);
+    				break;
+	    		}
+	    	},
+	    	'model': function(a) { var b = require(utils._format('/MVC/Models/{0}Model', a)); return ('function' === typeof b) ? new b() : b; },
+	    	'controller': function(a) { var b = require('/MVC/Controllers/' + a + 'Controller');  return ('function' === typeof b) ? new b() : b; }
+	    },   
+      	//Classes
 	    Controller = function(name) {
 	    	var that = this;
 			this.Name = name;
@@ -115,27 +126,79 @@ var MVC = (function() {
 				})();
 			}
 	    },
-	    include = {
-	    	'view': function() {
-	    		var d = require(utils._format('MVC/Views/{0}/{1}', arguments[0], arguments[1]));
-	    		switch (arguments.length) {
-	    			case 2:
-    					return new d();
-    				break;
-    				case 3:
-    					d.prototype.ViewData = arguments[2];
-    					return new d();
-    				break;
-    				case 4:
-    					d.prototype.ViewData = arguments[2];
-    					return new d(arguments[3]);
-    				break;
+	    Model = function(name) {
+	    	var that = this;
+	    	this.Properties = {};
+	    	this.setProperty = function() {
+	    		if (arguments.length < 2) {
+	    			throw 'MVC.Model takes at least two arguments!';
 	    		}
-	    	},
-	    	'model': function(a, params) { var b = require('/MVC/Models/' + a + 'Model'); return new b(params); },
-	    	'controller': function(a) { var b = require('/MVC/Controllers/' + a + 'Controller');  return ('function' === typeof b) ? new b() : b; }
+	    		this.Properties[arguments[0]] = {
+	    			value: arguments[1],
+	    			isRequired: arguments[2] || false,
+	    			regex: arguments[3] || false,
+	    			errorMessage: arguments[4] || false
+	    		}
+	    		return this;    		
+	    	};
+	    	this.create = function() {
+	    	   return (function() {
+	    	   		var _props = that.Properties,
+	    	   			_fill = function(obj) {
+	    	   				for (var p in obj) {
+	    	   					_props[p].value = obj[p];
+	    	   				}
+	    	   			},
+	    	   			_errors = function() {
+	    	   				var _err = {};
+	    	   				for (var p in _props) {
+	    	   					if (_props[p].isRequired && utils._emptyString(_props[p].value)) {
+	    	   						_err[p] = _props[p].errorMessage;
+	    	   					}
+	    	   					if (_props[p].regex && !_props[p].regex.test(_props[p].value)) {
+	    	   						_err[p] = _props[p].errorMessage;
+	    	   					}
+	    	   				}
+	    	   				return _err;
+	    	   			},
+	    	   			_validate = function() {
+	    	   				var _bool = true;
+	    	   				for (var p in _props) {
+	    	   					if (_props[p].isRequired && utils._emptyString(_props[p].value)) {
+	    	   						_bool = false;
+	    	   					}
+	    	   					if (_props[p].regex && !_props[p].regex.test(_props[p].value)) {
+	    	   						_bool = false;
+	    	   					}
+	    	   				}
+	    	   				return _bool;	    	   				
+	    	   			}
+					
+					return {
+						Properties: _props,
+						Fill: _fill,
+						IsValid: _validate,
+						Errors: _errors
+					}
+	    	   })();
+	    	}
+	    	return this;
 	    },
-	   Invoke = function() {
+	    
+	    //Factory functions
+	    createController = function(name) {
+	    	return new Controller(name);
+	    },
+	    createModel = function(name) {
+	    	return new Model(name);
+	    },
+	    
+	    //Invoker functions
+   	    invokeModel = function(name) {
+   			 return include.model(name); 
+
+	    },
+	    invokeController = function() {
 	   	
 	   	  if (arguments.length < 2) { throw 'MVC.Invoke requires a minimum of two arguments.'; }  
 	   	  
@@ -150,12 +213,13 @@ var MVC = (function() {
 	   			}
 	   			return ctrlMethod.call(ctrlMethod).apply(ctrlMethod, args);
 	   		}
-	   };
+	    };
 	
 	return {
-		Invoke: Invoke,
-		Controller: Controller,
-		Models: Models._list
+		InvokeController: invokeController,
+		InvokeModel: invokeModel,
+		Controller: createController,
+		Model: createModel,
 	}
 
 })();

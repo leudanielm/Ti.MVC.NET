@@ -22,24 +22,17 @@ function Index() {
   					 	      title: 'Submit', 
   					 	      height: 40  	 				  	
   	 				  }).on('click', function() {
-  	 				  	 MVC.Invoke('Home', 'About', txtName.value, txtEmail.value);
+							MVC.InvokeController('Home', 'About', txtName.value, txtEmail.value);
   	 				  })
   	 				  .get();				 	      
-  	var imgBkg =  UI.Element('imageView')
-				  	  .attr({
-					  	  width: 320,
-					  	  height: 480,
-						  backgroundColor: '#eeeeee',
-					  	  preventDefaultImage: true
-				  	  }).get();
 	
 	
 	UI.Element('window')
 	  .attr({
 	  	title: 'hello',
-	  	backgroundColor: '#fff'
+	  	backgroundColor: '#eeeeee'
 	  })
-	  .append([imgBkg, txtName, txtEmail, btnSubmit])
+	  .append([txtName, txtEmail, btnSubmit])
 	  .get().open({transition:Ti.UI.iPhone.AnimationStyle.FLIP_FROM_LEFT});
 	  
 }

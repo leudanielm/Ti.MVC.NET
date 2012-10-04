@@ -19,8 +19,8 @@ var UI = (function(){
 					return this;
 				}
 				this.on = function(ev, callback) {
+					this.EventListeners[ev] = callback;
 					this.Element.addEventListener(ev, (function(a){
-						this.EventListeners[ev] = callback;
 						return function() {
 							callback.apply(a);
 						}

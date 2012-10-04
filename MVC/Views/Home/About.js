@@ -14,18 +14,12 @@ function About(AboutModel) {
   					 	      value: this.ViewData['email'],  					 	      
   					 	      left: 10,
   					 	      width: 300, 
-  					 	      height: 40}).get(),
-	    bkgImg = UI.Element('imageView')
-			    .attr({'width': 320,
-				 	  'height': 480,
-				 	  'duration': 1000,
-				 	  'preventDefaultImage': true})
-			    .get();
+  					 	      height: 40}).get();
 	UI.Element('window')
-	   .attr({'title': 'hello','backgroundColor': '#ccc'})
+	   .attr({'title': 'hello','backgroundColor': '#eeeeee'})
 	   .on('click', function(){
 	   		this.close({transition:Ti.UI.iPhone.AnimationStyle.FLIP_FROM_LEFT});
 	   })
-	   .append([bkgImg, txtName, txtEmail]).get().open({transition:Ti.UI.iPhone.AnimationStyle.FLIP_FROM_RIGHT});
+	   .append([txtName, txtEmail]).get().open({transition:Ti.UI.iPhone.AnimationStyle.FLIP_FROM_RIGHT});
 }
 module.exports = About;
