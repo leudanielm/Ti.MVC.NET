@@ -4,12 +4,13 @@ module.exports =
 	   .setAction('About', function(name, email) {
 		  	 var model = MVC.InvokeModel('User');
 		  	 model.Fill({'Name': name, 'Email': email });
-		  	 if (model.IsValid()) {
+		  	 if (model.isValid()) {
+		  	 	Ti.API.info(model.getProperties());
 		  	 	this.ViewData['name'] = name;
 				this.ViewData['email'] = email;
 				return this.View();
 		  	 } else {
-		  	 	return this.View('MVC/Views/Shared/Errors.js', model.Errors());
+		  	 	return this.View('MVC/Views/Shared/Errors.js', model.getErrors());
 		  	 }	   	
 			
 	   	})

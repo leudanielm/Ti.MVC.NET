@@ -144,6 +144,14 @@ var MVC = (function() {
 	    	this.create = function() {
 	    	   return (function() {
 	    	   		var _props = that.Properties,
+	    	   		    _properties = function() {
+	    	   		    	var _ret = {};
+	    	   		    	for (var p in _props) {
+	    	   		    		_ret[p] = _props[p].value;
+	    	   		    	}
+	    	   		    	
+	    	   		    	return _ret;
+	    	   		    },
 	    	   			_fill = function(obj) {
 	    	   				for (var p in obj) {
 	    	   					_props[p].value = obj[p];
@@ -175,10 +183,10 @@ var MVC = (function() {
 	    	   			}
 					
 					return {
-						Properties: _props,
+						getProperties: _properties,
 						Fill: _fill,
-						IsValid: _validate,
-						Errors: _errors
+						isValid: _validate,
+						getErrors: _errors
 					}
 	    	   })();
 	    	}
