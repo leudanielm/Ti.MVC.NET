@@ -32,6 +32,16 @@ var MVC = (function() {
 					  'Name': 		name, 
 					  'Method': 	callback,
 					  'ViewData':  	{},
+					  'redirectToAction': function() {
+					  	if (!arguments.length) {
+					  		throw 'MVC: RedirectToAction takes at least one argument.';
+					  	} else if (arguments.length == 1) {
+					  		return invokeController(that.Name, arguments[0]);
+					  	} else if (arguments.length > 2) {
+					  		Array.prototype.unshift.apply(arguments, [that.Name]);
+					  		return invokeController.apply(null, arguments);
+					  	}
+					  },
 					  'View':     function() { 
 					  				  if (arguments.length == 0) {
 					  				  	  if (utils._empty(this.ViewData)) {
@@ -143,21 +153,23 @@ var MVC = (function() {
 	    	};
 	    	this.create = function() {
 	    	   return (function() {
-	    	   		var _props = that.Properties,
-	    	   		    _properties = function() {
+	    	   	   var Model = function() {
+	    	   	   	  var _props = that.Properties;
+	    	   	   	  this.getProperties = function() {
 	    	   		    	var _ret = {};
 	    	   		    	for (var p in _props) {
 	    	   		    		_ret[p] = _props[p].value;
 	    	   		    	}
 	    	   		    	
-	    	   		    	return _ret;
-	    	   		    },
-	    	   			_fill = function(obj) {
-	    	   				for (var p in obj) {
-	    	   					_props[p].value = obj[p];
-	    	   				}
-	    	   			},
-	    	   			_errors = function() {
+	    	   		    	return (!arguments.length) ? _ret : _ret[arguments[0]];	    	   	   	  	
+	    	   	   	  }
+	    	   	   	  this.Fill = function(obj) {
+	    	   	   	  	for (var p in obj) {
+	    	   	   	  		_props[p].value = obj[p];
+	    	   	   	  	}
+	    	   	   	  	return this;
+	    	   	   	  }
+	    	   	   	  this.getErrors = function() {
 	    	   				var _err = {};
 	    	   				for (var p in _props) {
 	    	   					if (_props[p].isRequired && utils._emptyString(_props[p].value)) {
@@ -167,9 +179,9 @@ var MVC = (function() {
 	    	   						_err[p] = _props[p].errorMessage;
 	    	   					}
 	    	   				}
-	    	   				return _err;
-	    	   			},
-	    	   			_validate = function() {
+	    	   				return _err;	    	   	   	  	 
+	    	   	   	  }
+	    	   	   	  this.isValid = function() {
 	    	   				var _bool = true;
 	    	   				for (var p in _props) {
 	    	   					if (_props[p].isRequired && utils._emptyString(_props[p].value)) {
@@ -179,15 +191,14 @@ var MVC = (function() {
 	    	   						_bool = false;
 	    	   					}
 	    	   				}
-	    	   				return _bool;	    	   				
-	    	   			}
-					
-					return {
-						getProperties: _properties,
-						Fill: _fill,
-						isValid: _validate,
-						getErrors: _errors
-					}
+	    	   				return _bool;	    	   	   	  	
+	    	   	   	  }
+	    	   	   	  
+	    	   	   	  return this;
+	    	   	   };
+	    	   	   
+	    	   	   return new Model();
+
 	    	   })();
 	    	}
 	    	return this;
@@ -222,11 +233,8 @@ var MVC = (function() {
 	   	  if (arguments.length == 2) {
 	   		   return ctrlMethod.call(ctrlMethod).apply(ctrlMethod);
 	   		} else if (arguments.length > 2) {
-	   			var args = [];
-	   			for (var i = 2; i < arguments.length; i++) {
-	   				args.push(arguments[i]);
-	   			}
-	   			return ctrlMethod.call(ctrlMethod).apply(ctrlMethod, args);
+	   			Array.prototype.splice.apply(arguments, [0, 2]);
+	   			return ctrlMethod.call(ctrlMethod).apply(ctrlMethod, arguments);
 	   		}
 	    };
 	
