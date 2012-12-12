@@ -77,7 +77,6 @@ var MVC = (function() {
 						  							case 'string':
 						  								if (Ti.Filesystem.getFile(arguments[0]).exists()) {
 						  									var t = require(pathify(arguments[0].replace('.js', '')));
-						  									alert(pathify(arguments[0].replace('.js', '')));
 						  									if ('function' === typeof t) {
 						  										t.prototype.ViewData = this.ViewData;
 						  										return new t();
@@ -98,7 +97,6 @@ var MVC = (function() {
 					  					} else if (arguments.length == 2) {
 					  						if (utils._type(arguments[0], arguments[1]) == ('string:object' || 'string:array')) {
 					  						  if (utils._empty(this.ViewData)) {
-					  								alert(pathify(arguments[0]));
 					  							if (Ti.Filesystem.getFile(pathify(arguments[0])).exists()) {
 					  								var t = require(pathify(arguments[0].replace('.js', '')));
 					  								return ('function' === typeof t) ? new t(arguments[1]) : t;
