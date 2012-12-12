@@ -1,9 +1,16 @@
 var MVC = (function() {
     // Helpers
     var utils = require('/MVC/utils'),
+		platform = (function(os){
+		    		return (/iphone|ipad/i.test(os)) ?
+		    					'iOS' : (/android/i.test(os)) ? 'Android' : 'MobileWeb';
+		    	})(Ti.Platform.osname),
+		pathify = function(path) {
+			return path.replace(/Views\//i, function(e){ return e + platform + '/'; });
+		},
 	    include = {
 	    	'view': function() {
-	    		var d = require(utils._format('MVC/Views/{0}/{1}', arguments[0], arguments[1]));
+	    		var d = require(utils._format('MVC/Views/{0}/{1}/{2}', platform, arguments[0], arguments[1]));
 	    		switch (arguments.length) {
 	    			case 2:
     					return new d();
@@ -53,8 +60,8 @@ var MVC = (function() {
 					  						if (utils._empty(this.ViewData)) {
 						  						switch (utils._type(arguments[0])) {
 						  							case 'string':
-						  								if (Ti.Filesystem.getFile(arguments[0]).exists()) {
-						  									var t = require(arguments[0].replace('.js', ''));
+						  								if (Ti.Filesystem.getFile(pathify(arguments[0])).exists()) {
+						  									var t = require(pathify(arguments[0].replace('.js', '')));
 						  									return ('function' === typeof t) ? new t() : t;
 						  								}
 						  							break;
@@ -69,7 +76,8 @@ var MVC = (function() {
 						  						switch (utils._type(arguments[0])) {
 						  							case 'string':
 						  								if (Ti.Filesystem.getFile(arguments[0]).exists()) {
-						  									var t = require(arguments[0].replace('.js', ''));
+						  									var t = require(pathify(arguments[0].replace('.js', '')));
+						  									alert(pathify(arguments[0].replace('.js', '')));
 						  									if ('function' === typeof t) {
 						  										t.prototype.ViewData = this.ViewData;
 						  										return new t();
@@ -90,13 +98,14 @@ var MVC = (function() {
 					  					} else if (arguments.length == 2) {
 					  						if (utils._type(arguments[0], arguments[1]) == ('string:object' || 'string:array')) {
 					  						  if (utils._empty(this.ViewData)) {
-					  							if (Ti.Filesystem.getFile(arguments[0]).exists()) {
-					  								var t = require(arguments[0].replace('.js', ''));
+					  								alert(pathify(arguments[0]));
+					  							if (Ti.Filesystem.getFile(pathify(arguments[0])).exists()) {
+					  								var t = require(pathify(arguments[0].replace('.js', '')));
 					  								return ('function' === typeof t) ? new t(arguments[1]) : t;
 					  							}
 					  						  } else {
 					  							if (Ti.Filesystem.getFile(arguments[0]).exists()) {
-					  								var t = require(arguments[0].replace('.js', ''));
+					  								var t = require(pathify(arguments[0].replace('.js', '')));
 					  								if ('function' === typeof t) {
 					  									t.prototype.ViewData = this.ViewData;
 					  									return new t(arguments[1]);
