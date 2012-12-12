@@ -45,9 +45,9 @@ var MVC = (function() {
 					  'View':     function() { 
 					  				  if (arguments.length == 0) {
 					  				  	  if (utils._empty(this.ViewData)) {
-											include.view(this.Controller, this.Name);
+											return include.view(this.Controller, this.Name);
 										  } else {
-										  	include.view(this.Controller, this.Name, this.ViewData);
+										  	return include.view(this.Controller, this.Name, this.ViewData);
 										  }
 					  					} else if (arguments.length == 1) {
 					  						if (utils._empty(this.ViewData)) {
@@ -123,7 +123,7 @@ var MVC = (function() {
 						   	  _temp[Methods[i].Name] = (function(a) { 
 		   	  	  							return function() { 
 	   	  									    return function() {
-	   	  										  a.Method.apply(a, arguments);
+	   	  										  return a.Method.apply(a, arguments);
 	   	  									   }
 		   	  								 } 
 		   	  							    })(Methods[i]);
@@ -165,7 +165,9 @@ var MVC = (function() {
 	    	   	   	  }
 	    	   	   	  this.Fill = function(obj) {
 	    	   	   	  	for (var p in obj) {
-	    	   	   	  		_props[p].value = obj[p];
+	    	   	   	  		if(_props.hasOwnProperty(p)) {
+	    	   	   	  			_props[p].value = obj[p];
+	    	   	   	  		}
 	    	   	   	  	}
 	    	   	   	  	return this;
 	    	   	   	  }
