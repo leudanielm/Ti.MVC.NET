@@ -1,5 +1,5 @@
 function About(AboutModel) {
-		txtName =  UI.Element('textField')
+	var txtName =  UI.Element('textField')
 		    	     .attr({  borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
  						      color: '#336699',
   					 	      top: 60,
@@ -11,7 +11,7 @@ function About(AboutModel) {
   					 	      left: 10,
   					 	      width: 300, 
   					 	      height: 40}).get(),
-  		txtEmail = UI.Element('textField')
+  		 txtEmail = UI.Element('textField')
  		    	     .attr({  borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
  						      color: '#336699',
   					 	      top: 10, 
@@ -23,6 +23,7 @@ function About(AboutModel) {
   					 	      left: 10,
   					 	      width: 300, 
   					 	      height: 40}).get();
+  		
 	UI.Element('window')
 	   .attr({'title': 'hello','backgroundColor': '#eeeeee'})
 	   .on('click', function(){
