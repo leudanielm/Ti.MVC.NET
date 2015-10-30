@@ -11,7 +11,10 @@ It follows closely with the standard ASP.NET pattern. You have a view, a control
 var MVC = require('mvc');
 module.exports =
   MVC.Controller('Home')
-     .setAction('Index', function() { this.ViewData.header = 'Welcome!'; return this.View(); })
+     .setAction('Index', function() { 
+        this.ViewData.header = 'Welcome!'; 
+        return this.View(); 
+     })
      .create();
 ```
 
