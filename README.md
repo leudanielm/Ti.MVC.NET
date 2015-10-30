@@ -3,8 +3,7 @@
 ### How does it work?
 It follows closely with the standard ASP.NET pattern. You have a view, a controller and a model.
 
-####Below is a basic example of a simple hello world app
-####Have a look at the resources under the MVC folder. That should be sufficient to get you up running with the framework.
+####Below is a basic example of a simple hello world app. It will basically open a new window in your app with a Textbox in it - which will get its value out of controller's view data
 
 #####The Controller:
 ```javascript
@@ -32,3 +31,6 @@ function Index() {
     .open();
 }
 ```
+
+####Have a look at the resources under the MVC folder for a complete example (which includes the Model class). That should be sufficient to get you up running with the framework.
+
